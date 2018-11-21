@@ -38,6 +38,30 @@ const input3 = [{
 		'promotionType':'BUY_TWO_GET_ONE_FREE',
 		'needToBeWeighted':false,
 		'count':1	
+	},{
+		'barcode': 'ITEM000001',
+		'name': 'Sprite',
+		'unit': 'bottle',
+		'price': 3.00,
+		'promotionType':'BUY_TWO_GET_ONE_FREE',
+		'needToBeWeighted':false,
+		'count':1	
+	},{
+		'barcode': 'ITEM000001',
+		'name': 'Sprite',
+		'unit': 'bottle',
+		'price': 3.00,
+		'promotionType':'BUY_TWO_GET_ONE_FREE',
+		'needToBeWeighted':false,
+		'count':1	
+	},{
+		'barcode': 'ITEM000001',
+		'name': 'Sprite',
+		'unit': 'bottle',
+		'price': 3.00,
+		'promotionType':'BUY_TWO_GET_ONE_FREE',
+		'needToBeWeighted':false,
+		'count':1	
 	}]
 	
 const text3 = {
@@ -46,6 +70,14 @@ const text3 = {
 		'price': 15.00,
 		'count':2,
 		'subtotal':30.00
+	}
+	
+const text5 = {
+		'name': 'Sprite',
+		'unit': 'bottle',
+		'price': 3.00,
+		'count':4,
+		'subtotal':9.00
 	}
 	
 const text4 = "Name: Litchi, Quantity: 2 kg, Unit price: 15.00 (yuan), Subtotal: 30.00 (yuan)"
@@ -59,6 +91,7 @@ it ('should output an obeject with all details', () => {
     expect(main.getAllDetailsOfAnItem('ITEM000003-2')).toEqual(text2);
 });
 
+
 it ('should output a summary for a specific barcode', () => {
     expect(main.getSummary(input3,'ITEM000003')).toEqual(text3);
 });
@@ -66,4 +99,7 @@ it ('should output a summary for a specific barcode', () => {
 it ('should output a line of summary', () => {
     expect(main.createALineOfReceipt(text3)).toEqual(text4);
 });
-	
+
+it ('should output a summary for a specific barcode', () => {
+    expect(main.getSummary(input3,'ITEM000001')).toEqual(text5);
+});
