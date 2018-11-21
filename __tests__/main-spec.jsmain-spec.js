@@ -21,13 +21,6 @@ const text2 = {
 		'count':2
 	}
 	
-const text3 = {
-		'name': 'Litchi',
-		'unit': 'kg',
-		'price': 15.00,
-		'count':2,
-		'subtotal':30.00
-	}
 
 const input3 = [{
 		'barcode': 'ITEM000003',
@@ -47,6 +40,16 @@ const input3 = [{
 		'count':1	
 	}]
 	
+const text3 = {
+		'name': 'Litchi',
+		'unit': 'kg',
+		'price': 15.00,
+		'count':2,
+		'subtotal':30.00
+	}
+	
+const text4 = "Name: Litchi, Quantity: 2 kg, Unit price: 15.00 (yuan), Subtotal: 30.00 (yuan)"
+	
 
 it ('should output an obeject with all details', () => {
     expect(main.getAllDetailsOfAnItem('ITEM000001')).toEqual(text1);
@@ -58,5 +61,9 @@ it ('should output an obeject with all details', () => {
 
 it ('should output a summary for a specific barcode', () => {
     expect(main.getSummary(input3,'ITEM000003')).toEqual(text3);
+});
+
+it ('should output a line of summary', () => {
+    expect(main.createALineOfReceipt(text3)).toEqual(text4);
 });
 	
