@@ -1,5 +1,5 @@
-const add = require('../main');
+const main = require('../main');
 
 it ('should add two numbers', () => {
-    expect(add(2, 3)).toBe(5);
+    expect(main.getAllDetailsOfAnItem(2, 3)).toBe(5);
 });
