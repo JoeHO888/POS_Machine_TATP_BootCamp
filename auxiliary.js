@@ -1,5 +1,4 @@
 
-
 const getUnit = (selectedDetails,summary)=>{
 	let unit
 	
