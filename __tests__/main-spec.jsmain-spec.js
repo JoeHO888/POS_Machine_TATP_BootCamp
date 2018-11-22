@@ -74,7 +74,7 @@ const text3 = {
 	
 const text5 = {
 		'name': 'Sprite',
-		'unit': 'bottle',
+		'unit': 'bottles',
 		'price': 3.00,
 		'count':4,
 		'subtotal':9.00
@@ -104,9 +104,7 @@ it ('should output a summary for a specific barcode', () => {
     expect(main.getSummary(input3,'ITEM000001')).toEqual(text5);
 });
 
-describe('pos', () => {
-
-  it('should print text', () => {
+it('should print text', () => {
 
     const tags = [
       'ITEM000001',
@@ -118,20 +116,6 @@ describe('pos', () => {
       'ITEM000005',
       'ITEM000005-2',
     ];
-
-    spyOn(console, 'log');
-
-    printReceipt(tags);
-
-    const expectText = `***<store earning no money>Receipt ***
-Name: Sprite, Quantity: 5 bottles, Unit price: 3.00 (yuan), Subtotal: 12.00 (yuan)
-Name: Litchi, Quantity: 2.5 kg, Unit price: 15.00 (yuan), Subtotal: 37.50 (yuan)
-Name: Noodles, Quantity: 3 bags, Unit price: 4.50 (yuan), Subtotal: 9.00 (yuan)
-----------------------
-Total: 58.50 (yuan)
-Saving: 7.50 (yuan)
-**********************`;
-
-    expect(console.log).toHaveBeenCalledWith(expectText);
+    const expectText = '***<store earning no money>Receipt ***\n'+'Name: Sprite, Quantity: 5 bottles, Unit price: 3.00 (yuan), Subtotal: 12.00 (yuan)\n'+'Name: Litchi, Quantity: 2.5 kg, Unit price: 15.00 (yuan), Subtotal: 37.50 (yuan)\n'+'Name: Noodles, Quantity: 3 bags, Unit price: 4.50 (yuan), Subtotal: 9.00 (yuan)\n'+'----------------------\n'+'Total: 58.50 (yuan)\n'+'Saving: 7.50 (yuan)\n'+'**********************'
+    expect(main.printReceipt(tags)).toEqual(expectText);
   });
-});

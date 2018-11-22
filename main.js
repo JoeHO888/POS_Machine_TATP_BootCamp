@@ -35,13 +35,19 @@ const getSummary = (DetailsArray,barcode) =>{
 	const selectedDetails = DetailsArray.filter(e=>e.barcode==barcode)
 	summary = {}
 	summary['name'] = selectedDetails[0].name
-	summary['unit'] = selectedDetails[0].unit
 	summary['price'] = selectedDetails[0].price
 	summary['count'] = selectedDetails.map(e=>e.count).reduce(add,0.00)
 	if (selectedDetails[0].promotionType == "BUY_TWO_GET_ONE_FREE"){
 		summary['subtotal'] = (Math.floor(summary['count']/3)*2+summary['count']%3)*summary['price']
 	}else{
 		summary['subtotal'] = summary['count']*summary['price']
+	}
+	if ( selectedDetails[0].unit!='kg'&& selectedDetails[0].unit!='box'&&summary['count']>1){
+		summary['unit'] = selectedDetails[0].unit+'s'
+	}else if(summary['unit']=='box'){
+		summary['unit'] = selectedDetails[0].unit+'es'
+	}else{
+		summary['unit'] = selectedDetails[0].unit
 	}
 	return summary
 }
@@ -77,5 +83,6 @@ module.exports = {
   getAllDetailsOfAnItem: getAllDetailsOfAnItem,
   loadPromotions: loadPromotions,
   getSummary:getSummary,
-  createALineOfReceipt:createALineOfReceipt
+  createALineOfReceipt:createALineOfReceipt,
+  printReceipt:printReceipt
 }
