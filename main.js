@@ -1,7 +1,9 @@
+const loadAllItems = require('./loadAllItems.js');
 
-	
-	
-function getAllDetailsOfAnItem (barcode) {
+const loadPromotions = require('./loadPromotions.js');
+
+
+const getAllDetailsOfAnItem = barcode=> {
 	let detailsOfAnItem
 	let needToBeWeighted = false
 	let count = 1
@@ -46,84 +48,35 @@ const getSummary = (DetailsArray,barcode) =>{
 	return summary
 }
 
-function add(a, b) {
-    return a + b;
-}
+const add = (a, b) => a + b
 
 const createALineOfReceipt = summary=>"Name: "+summary.name+", Quantity: "+summary.count+" "+summary.unit+", Unit price: "+summary.price.toFixed(2).toString()+" (yuan), Subtotal: "+summary.subtotal.toFixed(2).toString()+" (yuan)"
 
 
 const printReceipt = barcodeArray=>{
-	let receipt = "***<store earning no money>Receipt ***"
+	let receipt = "***<store earning no money>Receipt ***\n"
+	let sum = 0;
+	let saving = 0;
 	const detailsArray = barcodeArray.map(e=>getAllDetailsOfAnItem(e))
 	const uniqueBarcode = [...new Set(detailsArray.map(e=>e.barcode))] 
-	uniqueBarcode.map((e,index)=>{
+	uniqueBarcode.map(e=>{
+		let summary = getSummary(detailsArray,e)
+		
+		receipt+=createALineOfReceipt(summary)
+		sum+=summary.subtotal
+		console.log((summary.count*summary.price)-summary.subtotal)
+		saving+=(summary.count*summary.price)-summary.subtotal
 		receipt+="\n"
-		receipt+=createALineOfReceipt(getSummary(detailsArray,e))
+		
 
 	})
-	receipt+= '----------------------'
+	receipt+= '----------------------\n'
+	receipt+= 'Total: '+sum.toFixed(2).toString()+' (yuan)\n'
+	receipt+= 'Saving: '+saving.toFixed(2).toString()+' (yuan)\n'
+	receipt+='**********************'
 	return receipt
 }
 
-
-const loadAllItems = ()=> {
-  return [
-    {
-      barcode: 'ITEM000000',
-      name: 'Coca-Cola',
-      unit: 'bottle',
-      price: 3.00
-    },
-    {
-      barcode: 'ITEM000001',
-      name: 'Sprite',
-      unit: 'bottle',
-      price: 3.00
-    },
-    {
-      barcode: 'ITEM000002',
-      name: 'Apple',
-      unit: 'kg',
-      price: 5.50
-    },
-    {
-      barcode: 'ITEM000003',
-      name: 'Litchi',
-      unit: 'kg',
-      price: 15.00
-    },
-    {
-      barcode: 'ITEM000004',
-      name: 'Battery',
-      unit: 'box',
-      price: 2.00
-    },
-    {
-      barcode: 'ITEM000005',
-      name: 'Noodles',
-      unit: 'bag',
-      price: 4.50
-    }
-  ];
-}
-
-const loadPromotions = ()=>  {
-  return [
-    {
-      type: 'BUY_TWO_GET_ONE_FREE',
-      barcodes: [
-        'ITEM000000',
-        'ITEM000001',
-        'ITEM000005'
-      ]
-    }
-  ];
-}
-
-
-//module.exports = {getAllDetailsOfAnItem:getAllDetailsOfAnItem(barcode)};
-module.exports = {getAllDetailsOfAnItem,loadPromotions};
 
 module.exports = {
   getAllDetailsOfAnItem: getAllDetailsOfAnItem,
