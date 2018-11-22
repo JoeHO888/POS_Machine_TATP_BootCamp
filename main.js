@@ -43,8 +43,6 @@ const getSummary = (DetailsArray,barcode) =>{
 	}else{
 		summary['subtotal'] = summary['count']*summary['price']
 	}
-	
-	
 	return summary
 }
 
@@ -64,11 +62,8 @@ const printReceipt = barcodeArray=>{
 		
 		receipt+=createALineOfReceipt(summary)
 		sum+=summary.subtotal
-		console.log((summary.count*summary.price)-summary.subtotal)
 		saving+=(summary.count*summary.price)-summary.subtotal
 		receipt+="\n"
-		
-
 	})
 	receipt+= '----------------------\n'
 	receipt+= 'Total: '+sum.toFixed(2).toString()+' (yuan)\n'
