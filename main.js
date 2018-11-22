@@ -1,22 +1,18 @@
-const loadAllItems = require('./loadAllItems.js');
-
-const loadPromotions = require('./loadPromotions.js');
-
+const db = require('./db.js');
 
 const getAllDetailsOfAnItem = barcode=> {
 	let detailsOfAnItem
 	let needToBeWeighted = false
 	let count = 1
+	let AllItems = db.loadAllItems()
+	let PromotionList = db.loadPromotions()
 	
 	if (barcode.includes('-')){
 		count = parseFloat(barcode.substring(barcode.indexOf("-")+1,barcode.length))
 		barcode = barcode.substring(0,barcode.indexOf("-"))
 		needToBeWeighted = true
 	}
-	
-	let AllItems = loadAllItems()
-	let PromotionList = loadPromotions()
-	
+
 	detailsOfAnItem= AllItems.filter(e=>e.barcode == barcode)[0]
 	
 	if ((PromotionList[0].barcodes.filter(e=>e == barcode)).length==1){
@@ -37,19 +33,30 @@ const getSummary = (DetailsArray,barcode) =>{
 	summary['name'] = selectedDetails[0].name
 	summary['price'] = selectedDetails[0].price
 	summary['count'] = selectedDetails.map(e=>e.count).reduce(add,0.00)
+	
 	if (selectedDetails[0].promotionType == "BUY_TWO_GET_ONE_FREE"){
 		summary['subtotal'] = (Math.floor(summary['count']/3)*2+summary['count']%3)*summary['price']
 	}else{
 		summary['subtotal'] = summary['count']*summary['price']
 	}
-	if ( selectedDetails[0].unit!='kg'&& selectedDetails[0].unit!='box'&&summary['count']>1){
-		summary['unit'] = selectedDetails[0].unit+'s'
-	}else if(summary['unit']=='box'){
-		summary['unit'] = selectedDetails[0].unit+'es'
-	}else{
-		summary['unit'] = selectedDetails[0].unit
-	}
+	
+	summary['unit'] = getUnit(selectedDetails,summary)
+	
 	return summary
+}
+
+const getUnit = (selectedDetails,summary)=>{
+	let unit
+	
+	if ( selectedDetails[0].unit!='kg'&& selectedDetails[0].unit!='box'&&summary['count']>1){
+		unit = selectedDetails[0].unit+'s'
+	}else if(summary['unit']=='box'){
+		unit = selectedDetails[0].unit+'es'
+	}else{
+		unit = selectedDetails[0].unit
+	}
+	return unit
+	
 }
 
 const add = (a, b) => a + b
@@ -81,7 +88,6 @@ const printReceipt = barcodeArray=>{
 
 module.exports = {
   getAllDetailsOfAnItem: getAllDetailsOfAnItem,
-  loadPromotions: loadPromotions,
   getSummary:getSummary,
   createALineOfReceipt:createALineOfReceipt,
   printReceipt:printReceipt
