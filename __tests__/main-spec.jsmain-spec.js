@@ -1,4 +1,5 @@
 const main = require('../main');
+const auxiliary = require('../auxiliary.js');
 
 
 const text1 = {
@@ -97,7 +98,7 @@ it ('should output a summary for a specific barcode', () => {
 });
 
 it ('should output a line of summary', () => {
-    expect(main.createALineOfReceipt(text3)).toEqual(text4);
+    expect(auxiliary.createALineOfReceipt(text3)).toEqual(text4);
 });
 
 it ('should output a summary for a specific barcode', () => {
